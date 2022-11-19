@@ -8,13 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CarroViewHolder extends RecyclerView.ViewHolder{
-    TextView modelo, ano;
+    TextView marca, modelo, ano;
     ImageView imagem;
 
     public CarroViewHolder(@NonNull View itemView) {
         super(itemView);
-        modelo.findViewById(R.id.modelo);
-        ano.findViewById(R.id.ano);
-        imagem.findViewById(R.id.imageCarro);
+        marca = itemView.findViewById(R.id.marca);
+        modelo = itemView.findViewById(R.id.modelo);
+        ano = itemView.findViewById(R.id.ano);
+        imagem = itemView.findViewById(R.id.imageCarro);
     }
 }

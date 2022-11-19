@@ -1,13 +1,25 @@
 package com.example.carroandroidproject;
 
 public class Carro {
-    private String modelo, ano;
-    private int imagem;
+    private String marca, modelo;
+    private int imagem, ano;
 
-    public Carro(String modelo, String ano, int imagem) {
+    public Carro(String marca, String modelo, int ano, int imagem) {
+        this.marca = marca;
         this.modelo = modelo;
         this.ano = ano;
         this.imagem = imagem;
+    }
+
+    public Carro() {
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
     public String getModelo() {
@@ -18,11 +30,11 @@ public class Carro {
         this.modelo = modelo;
     }
 
-    public String getAno() {
+    public int getAno() {
         return ano;
     }
 
-    public void setAno(String ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 

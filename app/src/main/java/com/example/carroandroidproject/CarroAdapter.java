@@ -25,15 +25,16 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroViewHolder> {
     @Override
     public CarroViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.carros_list_layout, parent, false);
-        CarroViewHolder atletaViewHolder = new CarroViewHolder(view);
-        return atletaViewHolder;
+        CarroViewHolder carroViewHolder = new CarroViewHolder(view);
+        return carroViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull CarroViewHolder carroViewHolder, int position) {
         Carro carro = carros.get(position);
+        carroViewHolder.marca.setText(carro.getMarca());
         carroViewHolder.modelo.setText(carro.getModelo());
-        carroViewHolder.ano.setText(carro.getAno());
+        carroViewHolder.ano.setText(Integer.toString(carro.getAno()));
         carroViewHolder.imagem.setImageResource(carro.getImagem());
 //        carroViewHolder.modelo.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -45,6 +46,6 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return carros.size();
     }
 }
