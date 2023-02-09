@@ -15,10 +15,14 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroViewHolder> {
 
     private Context context;
     private ArrayList<Carro> carros;
+    private MyClick deleteClick;
+    private MyClick openClick;
 
-    public CarroAdapter(Context context, ArrayList<Carro> carros) {
+    public CarroAdapter(Context context, ArrayList<Carro> carros, MyClick deleteClick, MyClick openClick) {
         this.context = context;
         this.carros = carros;
+        this.deleteClick = deleteClick;
+        this.openClick = openClick;
     }
 
     @NonNull
@@ -35,13 +39,9 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroViewHolder> {
         carroViewHolder.marca.setText(carro.getMarca());
         carroViewHolder.modelo.setText(carro.getModelo());
         carroViewHolder.ano.setText(Integer.toString(carro.getAno()));
-        carroViewHolder.imagem.setImageResource(carro.getImagem());
-//        carroViewHolder.modelo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, "Clicou em: " + atleta.getNome(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        carroViewHolder.imagem.setImageBitmap(carro.getImagem());
+        carroViewHolder.delete.setOnClickListener(view -> deleteClick.click(view, carros.get(position), position));
+        carroViewHolder.cardView.setOnClickListener(view -> openClick.click(view, carros.get(position), position));
     }
 
     @Override

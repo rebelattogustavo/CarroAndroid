@@ -1,35 +1,46 @@
 package com.example.carroandroidproject;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class CadastroCarro extends AppCompatActivity {
 
-    private Button botaoEscolherImg, botaoVoltar, botaoSalvar;
+    private Button botaoVoltar, botaoSalvar;
+    private Uri imagemCaminho;
     private EditText marcaCarro, modeloCarro, anoCarro;
+    private ImageView imagemCarro;
+    private Bitmap imagemCarroBitMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.carros_cadastro);
 
-        botaoEscolherImg = findViewById(R.id.escolherImgButton);
-        botaoEscolherImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImagesCarros();
-            }
-        });
-
         marcaCarro = findViewById(R.id.marcaCarroText);
         modeloCarro = findViewById(R.id.modeloCarroText);
         anoCarro = findViewById(R.id.anoCarroText);
+        imagemCarro = findViewById(R.id.imagemCarroGaleria);
+        imagemCarro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                escolheImagemGaleria();
+            }
+        });
 
         botaoSalvar = findViewById(R.id.salvarButton);
         botaoSalvar.setOnClickListener(new View.OnClickListener() {
@@ -39,37 +50,12 @@ public class CadastroCarro extends AppCompatActivity {
                 carro.setMarca(marcaCarro.getText().toString());
                 carro.setModelo(modeloCarro.getText().toString());
                 carro.setAno(Integer.parseInt(anoCarro.getText().toString()));
-
                 Bundle extras = getIntent().getExtras();
                 int imagem = 0;
-
-                if (extras != null) {
-                    imagem = extras.getInt("name");
-                    // and get whatever type user account id is
-                }
-                switch (imagem){
-                    case 1:
-                        carro.setImagem(R.drawable._ee03295_2020_nissan_gt_r_19_1160x773);
-                        break;
-                    case 2:
-                        carro.setImagem(R.drawable._707d9c10e216316150008c9skyline_gt_r_r34);
-                        break;
-                    case 3:
-                        carro.setImagem(R.drawable.rx7);
-                        break;
-                    case 4:
-                        carro.setImagem(R.drawable._50z);
-                        break;
-                    case 5:
-                        carro.setImagem(R.drawable.s15);
-                        break;
-                    case 6:
-                        carro.setImagem(R.drawable.silvia_marcelo);
-                        break;
-                }
-                MainActivity.carros.add(carro);
+                imagem = extras.getInt("imagem");
                 Intent intent= new Intent(CadastroCarro.this, MainActivity.class);
-                startActivity(intent);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -82,8 +68,25 @@ public class CadastroCarro extends AppCompatActivity {
         });
     }
 
-    public void openImagesCarros(){
-        Intent intent= new Intent(this, CarroImages.class);
-        startActivity(intent);
+    private void escolheImagemGaleria() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/");
+        startActivityForResult(intent, 1000);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 0){
+            imagemCaminho = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagemCaminho);
+                imagemCarro.setImageBitmap(bitmap);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

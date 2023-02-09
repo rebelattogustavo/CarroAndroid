@@ -1,10 +1,13 @@
 package com.example.carroandroidproject;
 
+import android.graphics.Bitmap;
+
 public class Carro {
     private String marca, modelo;
-    private int imagem, ano;
+    private int ano;
+    private Bitmap imagem;
 
-    public Carro(String marca, String modelo, int ano, int imagem) {
+    public Carro(String marca, String modelo, int ano, Bitmap imagem) {
         this.marca = marca;
         this.modelo = modelo;
         this.ano = ano;
@@ -38,11 +41,11 @@ public class Carro {
         this.ano = ano;
     }
 
-    public int getImagem() {
+    public Bitmap getImagem() {
         return imagem;
     }
 
-    public void setImagem(int imagem) {
+    public void setImagem(Bitmap imagem) {
         this.imagem = imagem;
     }
 }
