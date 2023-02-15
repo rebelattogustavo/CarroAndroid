@@ -1,6 +1,7 @@
 package com.example.carroandroidproject;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
+
 public class TelaCarro extends AppCompatActivity {
-    ImageView imagemCarroClica;
     TextView marcaCarroClica, modeloCarroClica, anoCarroClica;
     Button voltarButtonCarro;
+    CircularImageView imagemCarroClica;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,8 +34,7 @@ public class TelaCarro extends AppCompatActivity {
         anoCarroClica = findViewById(R.id.anoCarroClica);
         voltarButtonCarro = findViewById(R.id.voltarButtonCarro);
 
-        System.out.println(MainActivity.carros.get(pos).getImagem());
-        imagemCarroClica.setImageDrawable(new BitmapDrawable(MainActivity.carros.get(pos).getImagem()));
+        imagemCarroClica.setImageBitmap(MainActivity.carros.get(pos).getImagem());
         marcaCarroClica.setText(MainActivity.carros.get(pos).getMarca());
         modeloCarroClica.setText(MainActivity.carros.get(pos).getModelo());
         anoCarroClica.setText(String.valueOf(MainActivity.carros.get(pos).getAno()));

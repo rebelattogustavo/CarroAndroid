@@ -3,6 +3,7 @@ package com.example.carroandroidproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class CadastroCarro extends AppCompatActivity {
 
@@ -50,10 +52,10 @@ public class CadastroCarro extends AppCompatActivity {
                 carro.setMarca(marcaCarro.getText().toString());
                 carro.setModelo(modeloCarro.getText().toString());
                 carro.setAno(Integer.parseInt(anoCarro.getText().toString()));
-                Bundle extras = getIntent().getExtras();
-                int imagem = 0;
-                imagem = extras.getInt("imagem");
+                carro.setImagem(imagemCarroBitMap);
+                System.out.println("IMAGEMMMMM: " + carro.getImagem());
                 Intent intent= new Intent(CadastroCarro.this, MainActivity.class);
+                MainActivity.carros.add(carro);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
@@ -77,13 +79,16 @@ public class CadastroCarro extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == 0){
+        if(requestCode == 1000){
             imagemCaminho = data.getData();
             Bitmap bitmap = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagemCaminho);
-                imagemCarro.setImageBitmap(bitmap);
+                Uri imageUri = data.getData();
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                Bitmap bitmapImage = BitmapFactory.decodeStream(inputStream);
+                imagemCarroBitMap = bitmapImage;
+                imagemCarro.setImageBitmap(bitmapImage);
+                System.out.println(imagemCarro);
             }catch (IOException e){
                 e.printStackTrace();
             }
